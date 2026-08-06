@@ -27,6 +27,7 @@ async function main() {
 
   fs.mkdirSync(outDir, { recursive: true });
   fs.copyFileSync(path.join(templateDir, 'base.css'), path.join(outDir, 'base.css'));
+  fs.copyFileSync(path.join(templateDir, 'fit.js'), path.join(outDir, 'fit.js'));
   fs.cpSync(path.join(templateDir, 'fonts'), path.join(outDir, 'fonts'), { recursive: true });
 
   const browser = await chromium.launch();
@@ -42,7 +43,7 @@ async function main() {
     fs.writeFileSync(htmlPath, html);
 
     await page.goto('file://' + htmlPath, { waitUntil: 'networkidle' });
-    await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(() => window.__fitDone === true, { timeout: 5000 });
 
     const pngPath = path.join(outDir, `slide-${i + 1}.png`);
     await page.screenshot({ path: pngPath, clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT } });

@@ -1,0 +1,51 @@
+{
+  "name": "claude-template-1-stress-test",
+  "slides": [
+    {
+      "type": "title",
+      "highlightWord": "Claude AI Automation",
+      "lineBottom": "Playbook for Small Teams Who Ship Fast",
+      "badge": "2026 Edition",
+      "body": "Be clear about what you automate, what stays manual, and why — because your workflow, and your whole team, will follow whatever example you set this quarter."
+    },
+    {
+      "type": "browserQuote",
+      "headlinePlain": "What's Actually Changed",
+      "headlineHighlight": "in Content Ops in 2026?",
+      "quote": "Great automations reduce the number of decisions a human has to make, not just the number of clicks it takes to publish something.",
+      "subtext": "Not just faster posting. Claude helps you plan, draft, review, and ship with judgment built into every step of the pipeline, end to end."
+    },
+    {
+      "type": "checklist",
+      "headlinePlain": "Build Systems",
+      "headlineHighlight": "You Can Actually Trust",
+      "items": [
+        "Keep a human in the loop for anything published",
+        "Automate only the genuinely repeatable part",
+        "Review every carousel before it goes live",
+        "Log what got posted and when, always",
+        "Version your templates so changes are traceable",
+        "Revisit the whole system monthly"
+      ],
+      "body": "Don't chase full autopilot — automate the boring 80% and keep judgment exactly where it matters most for your brand."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Use Claude",
+      "headlineHighlight": "But Stay Deliberately Intentional",
+      "statement": "Let Claude draft, plan, template, and organize your content calendar — but never let it decide what actually goes out under your name.",
+      "subtextTop": "Claude can help outline, design, resize, and schedule everything.",
+      "subtextBottom": "But the actual judgment call on what ships? That one's still yours."
+    },
+    {
+      "type": "cta",
+      "lineTop": "You've already got the",
+      "badge": "Workflow Foundation",
+      "lineMid": "Now go build with real",
+      "highlightWord": "intention",
+      "body": "Small, consistent systems that you actually maintain beat one big flashy automation you abandon after two weeks.",
+      "ctaLine": "Ready to actually start?",
+      "ctaSub": "Save this post, screenshot the checklist, and come back weekly to check your progress"
+    }
+  ]
+}
