@@ -1,0 +1,44 @@
+{
+  "name": "claude-template-1-sample",
+  "slides": [
+    {
+      "type": "title",
+      "highlightWord": "Claude AI",
+      "lineBottom": "Playbook for",
+      "badge": "2026",
+      "body": "Be clear about what you automate, and your workflow will follow."
+    },
+    {
+      "type": "browserQuote",
+      "headlinePlain": "What's Changed",
+      "headlineHighlight": "in 2026?",
+      "quote": "Great automations reduce decisions, not just clicks.",
+      "subtext": "Not just faster posting. Claude helps you plan, draft, and ship with judgment built in."
+    },
+    {
+      "type": "checklist",
+      "headlinePlain": "Build Systems",
+      "headlineHighlight": "You Can Trust",
+      "items": ["Keep a human in the loop", "Automate the repeatable part", "Review before it goes live"],
+      "body": "Don't chase full autopilot — automate the boring 80%.\nKeep judgment where it matters."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Use Claude",
+      "headlineHighlight": "But Stay Intentional",
+      "statement": "Let Claude draft, plan, and organize — not decide what goes out.",
+      "subtextTop": "Claude can help outline, design, and schedule.",
+      "subtextBottom": "But the judgment call? That's yours."
+    },
+    {
+      "type": "cta",
+      "lineTop": "You've got the",
+      "badge": "Workflow",
+      "lineMid": "Now build with",
+      "highlightWord": "intention",
+      "body": "Small, consistent systems beat one big automation.",
+      "ctaLine": "Ready to start?",
+      "ctaSub": "Save this post and come back weekly"
+    }
+  ]
+}

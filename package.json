@@ -1,0 +1,12 @@
+{
+  "name": "automationigram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Notion -> carousel template -> Instagram automation pipeline",
+  "scripts": {
+    "render": "node scripts/render.js"
+  },
+  "dependencies": {
+    "playwright": "^1.56.1"
+  }
+}
