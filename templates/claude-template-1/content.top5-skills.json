@@ -1,0 +1,62 @@
+{
+  "name": "5-hidden-claude-skills",
+  "slides": [
+    {
+      "type": "title",
+      "highlightWord": "5 Hidden Skills",
+      "lineBottom": "You're Not Using",
+      "badge": "Yet",
+      "body": "You've been using Claude like a search bar. It's built to do the work with you."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Skill #1",
+      "headlineHighlight": "Artifacts",
+      "statement": "Claude builds the actual thing, live in the chat — a doc, a page, real code.",
+      "subtextTop": "No more describing what you want in paragraphs.",
+      "subtextBottom": "Just watch it get made."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Skill #2",
+      "headlineHighlight": "Projects",
+      "statement": "Give Claude your brand voice and docs once — every new chat already knows it.",
+      "subtextTop": "No more re-explaining context every time.",
+      "subtextBottom": "It remembers, so you don't have to."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Skill #3",
+      "headlineHighlight": "Vision",
+      "statement": "Drop in a screenshot, a messy reference image, a handwritten note — Claude reads it.",
+      "subtextTop": "Show it instead of describing it.",
+      "subtextBottom": "It sees what you see."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Skill #4",
+      "headlineHighlight": "Extended Thinking",
+      "statement": "For the hard calls — strategy, tradeoffs, planning — Claude reasons step by step, out loud.",
+      "subtextTop": "Not a guess dressed up as an answer.",
+      "subtextBottom": "Actual reasoning you can follow."
+    },
+    {
+      "type": "browserStatement",
+      "headlinePlain": "Skill #5",
+      "headlineHighlight": "Agentic Tool Use",
+      "statement": "Claude doesn't just answer. It goes and does the thing.",
+      "subtextTop": "Connects to your tools, takes multi-step actions.",
+      "subtextBottom": "Then reports back what it did."
+    },
+    {
+      "type": "cta",
+      "lineTop": "That's the hidden",
+      "badge": "5 Skills",
+      "lineMid": "Now go use them",
+      "highlightWord": "today",
+      "body": "Save this so you actually come back and try each one instead of forgetting by tomorrow.",
+      "ctaLine": "Save this post",
+      "ctaSub": "Follow for more Claude + AI workflow breakdowns"
+    }
+  ]
+}
