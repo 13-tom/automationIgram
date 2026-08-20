@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# secrets / auth — never commit these
+.env
+*.session
+credentials.json
+token.json
+
+# local output
+downloads/
