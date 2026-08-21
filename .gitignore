@@ -6,6 +6,7 @@ venv/
 # secrets / auth — never commit these
 .env
 *.session
+ig_session.json
 credentials.json
 token.json
 
