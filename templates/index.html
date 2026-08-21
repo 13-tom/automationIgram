@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local Media Downloader</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⬇️</text></svg>" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">⬇</span>
+        <div>
+          <h1>Local Media Downloader</h1>
+          <p>YouTube · Instagram Reels · Facebook Reels — runs entirely on your machine</p>
+        </div>
+      </div>
+      <div class="ffmpeg-badge {{ 'ok' if has_ffmpeg else 'warn' }}">
+        {% if has_ffmpeg %}ffmpeg detected — best quality available{% else %}ffmpeg not found — quality limited{% endif %}
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel input-panel">
+        <div class="tabs">
+          <button class="tab active" data-tab="single">Single Link</button>
+          <button class="tab" data-tab="bulk">Bulk Links</button>
+        </div>
+
+        <div class="tab-panel" id="tab-single">
+          <label class="field-label" for="single-url">Paste a video / reel link</label>
+          <input id="single-url" class="text-input" type="text" placeholder="https://www.youtube.com/watch?v=... or Instagram / Facebook reel link" />
+        </div>
+
+        <div class="tab-panel hidden" id="tab-bulk">
+          <label class="field-label" for="bulk-urls">One link per line</label>
+          <textarea id="bulk-urls" class="textarea" rows="7" placeholder="https://youtube.com/...&#10;https://instagram.com/reel/...&#10;https://facebook.com/reel/..."></textarea>
+          <div class="file-drop" id="file-drop">
+            <input type="file" id="file-input" accept=".txt" hidden />
+            <span>📄 Drop a <code>.txt</code> file of links here, or <button type="button" id="file-browse" class="link-btn">browse</button></span>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option">
+            <label class="field-label" for="quality">Quality</label>
+            <select id="quality" class="select">
+              <option value="best">Best available</option>
+              <option value="1080">Up to 1080p</option>
+              <option value="720">Up to 720p</option>
+              <option value="480">Up to 480p</option>
+              <option value="audio">Audio only (MP3)</option>
+            </select>
+          </div>
+          <div class="option">
+            <label class="field-label" for="output-dir">Save to folder</label>
+            <input id="output-dir" class="text-input" type="text" placeholder="downloads" value="downloads" />
+          </div>
+          <div class="option">
+            <label class="field-label" for="cookies-browser">Cookies from browser <span class="hint">(optional, for private/login-gated reels)</span></label>
+            <select id="cookies-browser" class="select">
+              <option value="">None</option>
+              <option value="chrome">Chrome</option>
+              <option value="firefox">Firefox</option>
+              <option value="edge">Edge</option>
+              <option value="brave">Brave</option>
+              <option value="safari">Safari</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="download-btn" class="primary-btn">Download</button>
+        <p id="form-error" class="form-error hidden"></p>
+      </section>
+
+      <section class="panel queue-panel">
+        <div class="panel-header">
+          <h2>Downloads</h2>
+          <button id="cancel-btn" class="ghost-btn hidden">Cancel active job</button>
+        </div>
+        <div id="queue-empty" class="empty-state">Nothing queued yet. Paste a link and hit Download.</div>
+        <ul id="queue-list" class="queue-list"></ul>
+      </section>
+
+      <section class="panel library-panel">
+        <div class="panel-header">
+          <h2>Library</h2>
+          <div class="panel-actions">
+            <button id="open-folder-btn" class="ghost-btn">Open folder</button>
+            <button id="refresh-library-btn" class="ghost-btn">Refresh</button>
+          </div>
+        </div>
+        <div id="library-empty" class="empty-state">No files downloaded yet in this folder.</div>
+        <ul id="library-list" class="library-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
