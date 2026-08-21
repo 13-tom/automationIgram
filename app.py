@@ -37,6 +37,29 @@ jobs_lock = threading.Lock()
 executor = ThreadPoolExecutor(max_workers=3)
 
 URL_RE = re.compile(r"^https?://", re.IGNORECASE)
+URL_IN_LINE_RE = re.compile(r"(https?://\S+)", re.IGNORECASE)
+UNSAFE_FILENAME_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
+
+
+def sanitize_filename(name: str) -> str:
+    cleaned = UNSAFE_FILENAME_RE.sub("_", name).strip().strip(".")
+    return cleaned[:150] or "download"
+
+
+def parse_bulk_line(raw: str) -> tuple[str, str | None] | None:
+    """Parse a line as either a bare URL or ``name : url`` / ``name - url``.
+
+    Returns (url, custom_name) or None if the line has no URL.
+    """
+    line = raw.strip()
+    if not line or line.startswith("#"):
+        return None
+    match = URL_IN_LINE_RE.search(line)
+    if not match:
+        return None
+    url = match.group(1)
+    prefix = line[: match.start()].strip().rstrip(":-|").strip()
+    return url, (prefix or None)
 
 
 class Cancelled(Exception):
@@ -63,10 +86,17 @@ def resolve_dir(raw: str | None) -> str:
     return raw if os.path.isabs(raw) else os.path.abspath(os.path.join(BASE_DIR, raw))
 
 
-def build_ydl_opts(output_dir: str, quality: str, cookies_browser: str | None, hook) -> dict:
+def build_ydl_opts(
+    output_dir: str,
+    quality: str,
+    cookies_browser: str | None,
+    hook,
+    filename_stem: str | None = None,
+) -> dict:
     has_ffmpeg = ffmpeg_available()
+    template = f"{filename_stem}.%(ext)s" if filename_stem else "%(title).200B [%(id)s].%(ext)s"
     opts: dict = {
-        "outtmpl": os.path.join(output_dir, "%(title).200B [%(id)s].%(ext)s"),
+        "outtmpl": os.path.join(output_dir, template),
         "progress_hooks": [hook],
         "noplaylist": True,
         "quiet": True,
@@ -130,12 +160,13 @@ def process_item(job_id: str, item_id: str, output_dir: str, quality: str, cooki
             if fname:
                 item["filename"] = os.path.basename(fname)
 
-    opts = build_ydl_opts(output_dir, quality, cookies_browser, hook)
+    opts = build_ydl_opts(output_dir, quality, cookies_browser, hook, item.get("filename_stem"))
 
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(item["url"], download=True)
-            item["title"] = info.get("title") or item["title"]
+            if not item.get("custom_name"):
+                item["title"] = info.get("title") or item.get("title")
             final_path = ydl.prepare_filename(info)
             if quality == "audio" and ffmpeg_available():
                 final_path = os.path.splitext(final_path)[0] + ".mp3"
@@ -213,18 +244,19 @@ def create_job():
     cookies_browser = (data.get("cookies_browser") or "").strip() or None
     output_dir = resolve_dir(data.get("output_dir"))
 
-    urls: list[str] = []
+    parsed: list[tuple[str, str | None]] = []
     seen = set()
     for raw in raw_urls:
-        u = (raw or "").strip()
-        if not u or u.startswith("#") or u in seen:
+        result = parse_bulk_line(raw or "")
+        if result is None:
             continue
-        if not URL_RE.match(u):
+        u, name = result
+        if not URL_RE.match(u) or u in seen:
             continue
         seen.add(u)
-        urls.append(u)
+        parsed.append((u, name))
 
-    if not urls:
+    if not parsed:
         return jsonify({"error": "No valid http(s) URLs supplied."}), 400
 
     try:
@@ -233,16 +265,30 @@ def create_job():
         return jsonify({"error": f"Cannot create output folder: {exc}"}), 400
 
     job_id = uuid.uuid4().hex[:12]
-    items = [
-        {
-            "id": uuid.uuid4().hex[:8],
-            "url": u,
-            "platform": detect_platform(u),
-            "status": "queued",
-            "percent": 0.0,
-        }
-        for u in urls
-    ]
+    used_stems: set[str] = set()
+    items = []
+    for u, name in parsed:
+        stem = None
+        if name:
+            base = sanitize_filename(name)
+            stem = base
+            n = 2
+            while stem.lower() in used_stems:
+                stem = f"{base} ({n})"
+                n += 1
+            used_stems.add(stem.lower())
+        items.append(
+            {
+                "id": uuid.uuid4().hex[:8],
+                "url": u,
+                "platform": detect_platform(u),
+                "status": "queued",
+                "percent": 0.0,
+                "custom_name": name,
+                "filename_stem": stem,
+                "title": name,
+            }
+        )
     job = {
         "id": job_id,
         "items": items,

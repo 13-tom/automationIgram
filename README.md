@@ -54,6 +54,14 @@ python app.py
 - **Single Link tab** — paste one URL and click Download.
 - **Bulk Links tab** — paste multiple links (one per line, `#` lines are
   ignored) and/or drop in a `.txt` file of links, then click Download.
+  Each line can be a bare link, or `filename : link` (also accepts `-` or
+  `|` as the separator) to control the saved file name instead of using
+  the video's own title, e.g.:
+  ```
+  https://www.youtube.com/watch?v=...
+  vacation clip : https://www.instagram.com/reel/...
+  funny moment - https://www.facebook.com/reel/...
+  ```
 - Set the **Quality** and **Save to folder** options before starting — they
   apply to the whole batch.
 - Watch progress per item in the **Downloads** panel; cancel anytime.
