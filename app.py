@@ -88,10 +88,14 @@ def build_ydl_opts(output_dir: str, quality: str, cookies_browser: str | None, h
         height_map = {"1080": 1080, "720": 720, "480": 480}
         h = height_map.get(quality)
         if has_ffmpeg:
-            opts["format"] = f"bestvideo[height<={h}]+bestaudio/best[height<={h}]" if h else "bestvideo+bestaudio/best"
+            opts["format"] = (
+                f"bestvideo[height<={h}]+bestaudio/best[height<={h}]/bestvideo+bestaudio/best"
+                if h
+                else "bestvideo+bestaudio/best"
+            )
             opts["merge_output_format"] = "mp4"
         else:
-            opts["format"] = f"best[height<={h}]" if h else "best"
+            opts["format"] = f"best[height<={h}]/best" if h else "best"
 
     return opts
 
